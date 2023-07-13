@@ -52,7 +52,7 @@ export default function Home() {
       budget: BudgetValue.Premium,
     },
   });
-  const onSubmit: SubmitHandler<Inputs> = () => alert(JSON.stringify(state));
+  const onSubmit: SubmitHandler<Inputs> = (data) => alert(JSON.stringify(data));
 
   return (
     <main
