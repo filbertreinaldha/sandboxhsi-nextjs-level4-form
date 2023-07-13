@@ -1,12 +1,12 @@
 import { DM_Sans } from "next/font/google";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Stepper } from "@mantine/core";
 import { stepperClass } from "@/styles/classes";
 import Contact from "@/components/Contact";
 import Service from "@/components/Service";
 import Budget from "@/components/Budget";
-import { Action, BudgetValue, Inputs, Services } from "@/types/index.d";
+import { BudgetValue, Inputs, Services } from "@/types/index.d";
 import Navigation from "@/components/Navigation";
 
 const dm_sans = DM_Sans({
@@ -15,31 +15,12 @@ const dm_sans = DM_Sans({
   variable: "--font-dmsans",
 });
 
-const initialInputsValue: Inputs = {
-  name: "",
-  email: "",
-  phone: "",
-  company: "",
-  service: Services.Development,
-  budget: BudgetValue.Premium,
-};
-
-const reducer = (state: Inputs, action: Action): Inputs => {
-  switch (action.type) {
-    case "setValue":
-      return { ...state, [action.name]: action.value };
-    default:
-      throw new Error();
-  }
-};
-
 export default function Home() {
   const [step, setStep] = useState(0);
   const goToNextStep = () =>
     setStep((current) => (current < 3 ? current + 1 : current));
   const goToPrevStep = () =>
     setStep((current) => (current > 0 ? current - 1 : current));
-  const [state, dispatch] = useReducer(reducer, initialInputsValue);
 
   const {
     handleSubmit,
@@ -79,18 +60,13 @@ export default function Home() {
             allowNextStepsSelect={false}
           >
             <Stepper.Step completedIcon={1}>
-              <Contact
-                control={control}
-                errors={errors}
-                state={state}
-                dispatch={dispatch}
-              />
+              <Contact control={control} errors={errors} />
             </Stepper.Step>
             <Stepper.Step completedIcon={2}>
-              <Service control={control} state={state} dispatch={dispatch} />
+              <Service control={control} />
             </Stepper.Step>
             <Stepper.Step completedIcon={3}>
-              <Budget control={control} state={state} dispatch={dispatch} />
+              <Budget control={control} />
             </Stepper.Step>
             <Stepper.Step completedIcon={4}>
               <div className="flex flex-col justify-between h-5/6 w-4/5 items-center self-center">
